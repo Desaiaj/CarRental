@@ -1,0 +1,41 @@
+<div layout:decorate="~{index}" layout:fragment="content">
+	<h1 class="mt-4">Explore</h1>
+	<p class="lead">Search for cars in your region</p>
+	<hr>
+
+	<div th:if="${cars != null}">
+		<hr>
+		<div th:switch="${carsListSize}"
+			th:with="carsListSize=${#lists.size(cars)}">
+			<p class="text-center info" th:case="0">
+				0 cars found.<br>There are no cars at this station.
+			</p>
+			<div th:case="*">
+				<table class="table table-borderless table-hover table-sm">
+					<caption class="text-center info"
+						th:text="${carsListSize + (carsListSize == 1 ? ' car' : ' cars') + ' found'}"></caption>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Model</th>
+							<th>Price</th>
+							<th>releaseyear</th>
+							<th>Rent it</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="car : ${cars}">
+							<td th:text="${car.id}"></td>
+							<td th:text="${car.name}"></td>
+							<td th:text="${car.model}"></td>
+							<td th:text="${car.price}"></td>
+							<td th:text="${car.releaseyear}"></td>
+							<td><a id="${car.id}" th:href="@{/rentout}">Book</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

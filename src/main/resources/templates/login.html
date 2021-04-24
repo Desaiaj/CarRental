@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Lecture 8-2</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link rel="stylesheet" type="text/css" media="all"  href="../static/css/mycss.css" th:href="@{/css/mycss.css}" />
+</head>
+<body>
+	<h1>Welcome to the Login Page</h1>
+	<br>
+	<form method="post" th:action="@{/login}" class="form">
+		<div th:if="${param.error}">
+			<div style="color: red;">Invalid UserName or password.</div>
+		</div>
+		
+		<div th:if="${param.logout}">
+			<div style="color: red;">You have been logged out.</div>
+		</div>
+		<br>
+		<label>Email:</label> <input type="email" name="username"  class="form-control" /><br>
+		<label>Password:</label> <input type="password" name="password" /><br><br>
+		<input type="submit" value="Log In" name="login-submit" class="btn btn-success"/>
+	</form>
+<br>
+	<p><a href="/register" th:href="@{/register}">Create Account</a></p>
+	<p><a href="/" th:href="@{/}">Back to home page</a></p>
+	<p><a href="/" th:href="@{/oauth2/authorization/google}">Sign in with Google</a></p>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="/fragments/shared/head"></head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="/fragments/shared/sidenav"></div>
+		<div id="page-content-wrapper">
+			<nav th:replace="/fragments/shared/topnav"></nav>
+			<div class="container-fluid">
+				<div layout:decorate="~{index}" layout:fragment="content">
+					<h1 class="mt-4">Explore</h1>
+					<p class="lead">Search for cars in your region</p>
+					<hr>
+
+					<div th:if="${cars != null}">
+						<hr>
+						<div th:switch="${carsListSize}"
+							th:with="carsListSize=${#lists.size(cars)}">
+							<p class="text-center info" th:case="0">
+								0 cars found.<br>There are no cars at this station.
+							</p>
+							<div th:case="*">
+								<table class="table table-borderless table-hover table-sm">
+									<caption class="text-center info"
+										th:text="${carsListSize + (carsListSize == 1 ? ' car' : ' cars') + ' found'}"></caption>
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Model</th>
+											<th>Price</th>
+											<th>release year</th>
+											<th>Rent it</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="car : ${cars}">
+											<td th:text="${car.id}"></td>
+											<td th:text="${car.name}"></td>
+											<td th:text="${car.model}"></td>
+											<td th:text="${car.price}"></td>
+											<td th:text="${car.releaseyear}"></td>
+											<td><a id="${car.id}" th:href="@{/rentout}">Book</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div layout:fragment="content"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+    $(document).ready(() => {
+        let item = sessionStorage.getItem("closed");
+        $("#wrapper").addClass(item ? item === "true" ? "closed" : "open" : "");
+    });
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("closed");
+        sessionStorage.setItem("closed", $(wrapper).hasClass("closed"));
+    });
+</script>
+</body>
+</html>
