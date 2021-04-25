@@ -7,4 +7,6 @@ import ca.sheridancollege.carrental.beans.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+
+	Customer findByFirstNameAndLastName(String fn, String ln);
 }

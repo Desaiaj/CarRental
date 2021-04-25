@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="/fragments/shared/head"></head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="/fragments/shared/sidenav"></div>
+		<div id="page-content-wrapper">
+			<nav th:replace="/fragments/shared/topnav"></nav>
+			<div class="container-fluid">
+				<div layout:decorate="~{index}" layout:fragment="content">
+					<h1 class="mt-4">Admin</h1>
+					<p class="lead">Admin Pannel</p>
+					<hr>
+					<form name="form" action="#" th:action="@{/admin/createcustomer}"
+						th:object=${customer} method="post">
+						FirstName: <input type="text" name="fisrtName"
+							th:field="*{firstName}" /><br>LastName: <input type="text"
+							name="LastName" th:field="*{lastName}" /><br> <input
+							type="submit" value="Create customer">
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+    $(document).ready(() => {
+        let item = sessionStorage.getItem("closed");
+        $("#wrapper").addClass(item ? item === "true" ? "closed" : "open" : "");
+    });
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("closed");
+        sessionStorage.setItem("closed", $(wrapper).hasClass("closed"));
+    });
+</script>
+</body>
+</html>

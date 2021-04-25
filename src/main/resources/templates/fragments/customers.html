@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="/fragments/shared/head"></head>
+<body>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="/fragments/shared/sidenav"></div>
+		<div id="page-content-wrapper">
+			<nav th:replace="/fragments/shared/topnav"></nav>
+			<div class="container-fluid">
+				<div layout:decorate="~{index}" layout:fragment="content">
+					<h1 class="mt-4">Admin</h1>
+					<p class="lead">Admin Pannel</p>
+					<hr>
+
+					<div th:if="${customers != null}">
+						<hr>
+						<div th:switch="${custListSize}"
+							th:with="custListSize=${#lists.size(customers)}">
+							<p class="text-center info" th:case="0">
+								0 cars found.<br>There are no cars at this station.
+							</p>
+							<div th:case="*">
+								<table class="table table-borderless table-hover table-sm">
+									<caption class="text-center info"
+										th:text="${custListSize + (custListSize == 1 ? ' customer' : ' customers') + ' found'}"></caption>
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Delete?</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="cust : ${customers}">
+											<td th:text="${cust.id}"></td>
+											<td th:text="${cust.firstName +' '+cust.lastName}"></td>
+											<td><a id="${cust.id}"
+												th:href="@{/admin/deleteCust/{id}(id=${cust.id})}">Delete</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<h1 class="mt-4">Rental List</h1>
+					<div th:switch="${rentalsListSize}"
+						th:with="rentalsListSize=${#lists.size(rentals)}">
+						<p class="text-center info" th:case="0">
+							0 rentals found.<br>Currently no customer has rented a car
+						</p>
+						<table class="table table-borderless table-hover table-sm"
+							style="width: 100%;" th:case="*">
+							<caption class="text-center" style="font-size: 12px;"
+								th:text="${rentalsListSize + (rentalsListSize == 1 ? ' rental' : ' rentals') + ' found'}"></caption>
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Rental date</th>
+									<th>Driver</th>
+									<th>Car</th>
+									<th>Delete?</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="rental : ${rentals}">
+									<td th:text="${rental.id}">Id</td>
+									<td th:text="${rental.rentalDate}">Rental date</td>
+									<td th:text="${rental.customer}"></td>
+									<td th:text="${rental.car}">Car</td>
+									<td><a class="btn btn-warning btn-sm"
+										th:href="@{/admin/delete-rental/{id}(id=${rental.id})}">Delete</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div layout:fragment="content"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+    $(document).ready(() => {
+        let item = sessionStorage.getItem("closed");
+        $("#wrapper").addClass(item ? item === "true" ? "closed" : "open" : "");
+    });
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("closed");
+        sessionStorage.setItem("closed", $(wrapper).hasClass("closed"));
+    });
+</script>
+</body>
+</html>

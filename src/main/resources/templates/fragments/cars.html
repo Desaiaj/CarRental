@@ -12,6 +12,16 @@
 					<p class="lead">Search for cars in your region</p>
 					<hr>
 
+					<form name="form" action="#" th:action="@{/admin/createcar}"
+						th:object=${car} method="post">
+						Name: <input type="text" name="name" th:field="*{name}" /><br>
+						Model: <input type="text" name="model" th:field="*{model}" /><br>
+						Price: <input type="number" name="model" th:field="*{price}" /><br>
+						Release Year: <input type="number" name="model"
+							th:field="*{releaseyear}" /><br> <input type="submit"
+							value="Create Car">
+					</form>
+					<hr>
 					<div th:if="${cars != null}">
 						<hr>
 						<div th:switch="${carsListSize}"
@@ -30,7 +40,7 @@
 											<th>Model</th>
 											<th>Price</th>
 											<th>release year</th>
-											<th>Rent it</th>
+											<th>Delete</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -40,7 +50,8 @@
 											<td th:text="${car.model}"></td>
 											<td th:text="${car.price}"></td>
 											<td th:text="${car.releaseyear}"></td>
-											<td><a id="${car.id}" th:href="@{/employee/create-rental}">Book</a></td>
+											<td><a id="${car.id}"
+												th:href="@{/admin/delete-car/{id}(id=${car.id})}">Delete</a></td>
 										</tr>
 									</tbody>
 								</table>

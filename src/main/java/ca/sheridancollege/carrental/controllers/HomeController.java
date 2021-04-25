@@ -85,10 +85,13 @@ public class HomeController {
 
 		model.addAttribute("cars", carRepository.findAll());
 		model.addAttribute("username", fn + " " + ln);
-		var c = new Customer();
-		c.setFirstName(fn);
-		c.setLastName(ln);
-		customerRepository.save(c);
+		var c = customerRepository.findByFirstNameAndLastName(fn, ln);
+		if (c == null) {
+			c = new Customer();
+			c.setFirstName(fn);
+			c.setLastName(ln);
+			customerRepository.save(c);
+		}
 		return "index";
 	}
 

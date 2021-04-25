@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().disable();
 
 		http.authorizeRequests().antMatchers(HttpMethod.POST, "/register").permitAll().antMatchers("/secure/**")
-				.hasAnyRole("USER","ADMIN","EMPLOYEE").antMatchers("/Admin/*").hasRole("ADMIN")
+				.hasAnyRole("USER","ADMIN","EMPLOYEE").antMatchers("/admin/**").hasRole("ADMIN")
 				.antMatchers("/", "/js/**", "/css/**", "/images/**", "/**").permitAll().antMatchers("/h2-console/**")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll().and()
 				.oauth2Login().loginPage("/oauth2/authorization/google").permitAll().defaultSuccessUrl("/loginSuccess")
